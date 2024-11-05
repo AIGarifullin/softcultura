@@ -6,10 +6,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-url = "https://softculture.amocrm.ru/api/v4/leads/11677397"
+url = "https://softculture.amocrm.ru/api/v4/leads/{}"
 
 api_answer = requests.get(
-        url,
+        url.format("11677397"),
         headers=dict(Authorization=f"Bearer {os.getenv('TOKEN_AMO')}"),
     )
 
