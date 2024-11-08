@@ -117,7 +117,7 @@ def get_contact(id: str):
     pprint(api_answer.json())
 
 
-def post_leads(data_json: list):
+def post_leads(data_json: list[dict]):
     """Создание сделок в amoCRM."""
     api_answer = requests.post(
         "https://softculture.amocrm.ru/api/v4/leads/complex",
@@ -131,7 +131,7 @@ def post_leads(data_json: list):
     pprint(api_answer.json())
 
 
-get_lead("13282723")
+# get_lead("13282723")
 # get_contact("16823473")
 # create_list_leads(data)
-# post_leads(data)
+post_leads(data)
