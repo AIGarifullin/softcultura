@@ -2,47 +2,34 @@ import os
 import requests
 
 from datetime import datetime
-from pprint import pprint
 
 from dotenv import load_dotenv
+from flask import Flask, jsonify
 
-from config import STATUSES_LEADS, ID_VOR
+from config import data, STATUSES_LEADS, ID_VOR
 
 load_dotenv()
 
-data = [
-    {
-        "airtable_id": "M13752",
-        "amount_paid": 7000,
-        "course_code": "ISB_7.7.07",
-        "date_received": "2021-10-01",
-        "price": 7000,
-        "student_email": "uuu@gmail.com",
-        "student_name": "Name1",
-        "student_phone": "+770000000000",
-        "student_surname": "Surname1",
-        "submission_id": "P18814",
-        "status": "Оплачена полностью",
-    },
-    # {
-    #     "airtable_id": "M13753",
-    #     "amount_paid": 472,
-    #     "course_code": "ISB_7.7.07",
-    #     "date_received": "2021-10-01",
-    #     "price": 472,
-    #     "student_email": "nnn@yandex.ru",
-    #     "student_name": "Name2",
-    #     "student_phone": "+770000000001",
-    #     "student_surname": "Surname2",
-    #     "submission_id": "P18815",
-    #     "status": "Оплачена полностью"
-    # },
-]
+app = Flask(__name__)
+app.config.from_object(__name__)
+
+# Загружаем конфиг по умолчанию и переопределяем в конфигурации часть
+# значений через переменную окружения
+app.config.update(dict(
+    DEBUG=os.getenv('DEBUG', 'False') == 'True'
+))
 
 
 def date_str_to_unix(date_str: str):
     """Преобразование строки в unixtime."""
     return int(datetime.strptime(date_str, "%Y-%m-%d").timestamp())
+
+
+def is_list_of_dicts(data):
+    """Проверка типа data на list[dict]"""
+    if isinstance(data, list):
+        return all(isinstance(item, dict) for item in data)
+    return False
 
 
 def create_list_leads(data_json: list[dict]):
@@ -98,24 +85,17 @@ def create_list_leads(data_json: list[dict]):
     return leads
 
 
-def get_lead(id: str):
+def get_lead(id: int):
     """Получение сделки по ID."""
     api_answer = requests.get(
         "https://softculture.amocrm.ru/api/v4/leads/{}".format(id),
         headers=dict(Authorization=f"Bearer {os.getenv('TOKEN_AMO')}"),
     )
-    print(api_answer.status_code)
-    pprint(api_answer.json())
 
-
-def get_contact(id: str):
-    """Получение контакта по ID."""
-    api_answer = requests.get(
-        "https://softculture.amocrm.ru/api/v4/contacts/{}".format(id),
-        headers=dict(Authorization=f"Bearer {os.getenv('TOKEN_AMO')}"),
-    )
-    print(api_answer.status_code)
-    pprint(api_answer.json())
+    if api_answer.status_code == 200:
+        return api_answer.json()
+    else:
+        return {'error': 'Lead not found'}, api_answer.status_code
 
 
 def post_leads(data_json: list[dict]):
@@ -128,11 +108,26 @@ def post_leads(data_json: list[dict]):
         },
         json=create_list_leads(data_json),
     )
-    print(api_answer.status_code)
-    pprint(api_answer.json())
+
+    return api_answer.json(), api_answer.status_code
 
 
-# get_lead("13282723")
-# get_contact("16823473")
-# create_list_leads(data)
-post_leads(data)
+@app.route('/leads/<int:id>')
+def get_lead_route(id):
+    """Маршрут для получения сделки по ID."""
+    lead_data = get_lead(id)
+    return jsonify(lead_data)
+
+
+@app.route('/leads/complex')
+def post_leads_route():
+    """Маршрут для создания сделок."""
+    if is_list_of_dicts(data):
+        response_data, status_code = post_leads(data)
+        return jsonify(response_data), status_code
+    else:
+        return jsonify({'error': 'Check data'}), 400
+
+
+if __name__ == '__main__':
+    app.run()
