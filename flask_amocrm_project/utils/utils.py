@@ -1,23 +1,6 @@
-import os
-import requests
-
 from datetime import datetime
 
-from dotenv import load_dotenv
-from flask import Flask, jsonify
-
-from config import data, STATUSES_LEADS, ID_VOR
-
-load_dotenv()
-
-app = Flask(__name__)
-app.config.from_object(__name__)
-
-# Загружаем конфиг по умолчанию и переопределяем в конфигурации часть
-# значений через переменную окружения
-app.config.update(dict(
-    DEBUG=os.getenv('DEBUG', 'False') == 'True'
-))
+from ..config import STATUSES_LEADS, ID_VOR
 
 
 def date_str_to_unix(date_str: str):
@@ -83,51 +66,3 @@ def create_list_leads(data_json: list[dict]):
         )
         leads.append(lead)
     return leads
-
-
-def get_lead(id: int):
-    """Получение сделки по ID."""
-    api_answer = requests.get(
-        "https://softculture.amocrm.ru/api/v4/leads/{}".format(id),
-        headers=dict(Authorization=f"Bearer {os.getenv('TOKEN_AMO')}"),
-    )
-
-    if api_answer.status_code == 200:
-        return api_answer.json()
-    else:
-        return {'error': 'Lead not found'}, api_answer.status_code
-
-
-def post_leads(data_json: list[dict]):
-    """Создание сделок в amoCRM."""
-    api_answer = requests.post(
-        "https://softculture.amocrm.ru/api/v4/leads/complex",
-        headers={
-            "Authorization": f"Bearer {os.getenv('TOKEN_AMO')}",
-            "Content-Type": "application/json",
-        },
-        json=create_list_leads(data_json),
-    )
-
-    return api_answer.json(), api_answer.status_code
-
-
-@app.route('/leads/<int:id>')
-def get_lead_route(id):
-    """Маршрут для получения сделки по ID."""
-    lead_data = get_lead(id)
-    return jsonify(lead_data)
-
-
-@app.route('/leads/complex')
-def post_leads_route():
-    """Маршрут для создания сделок."""
-    if is_list_of_dicts(data):
-        response_data, status_code = post_leads(data)
-        return jsonify(response_data), status_code
-    else:
-        return jsonify({'error': 'Check data'}), 400
-
-
-if __name__ == '__main__':
-    app.run()

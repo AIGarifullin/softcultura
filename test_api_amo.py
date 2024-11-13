@@ -6,7 +6,7 @@ from pprint import pprint
 
 from dotenv import load_dotenv
 
-from config import STATUSES_LEADS, ID_VOR
+from flask_amocrm_project.config import STATUSES_LEADS, ID_VOR
 
 load_dotenv()
 
@@ -24,19 +24,6 @@ data = [
         "submission_id": "P18814",
         "status": "Оплачена полностью",
     },
-    # {
-    #     "airtable_id": "M13753",
-    #     "amount_paid": 472,
-    #     "course_code": "ISB_7.7.07",
-    #     "date_received": "2021-10-01",
-    #     "price": 472,
-    #     "student_email": "nnn@yandex.ru",
-    #     "student_name": "Name2",
-    #     "student_phone": "+770000000001",
-    #     "student_surname": "Surname2",
-    #     "submission_id": "P18815",
-    #     "status": "Оплачена полностью"
-    # },
 ]
 
 
@@ -132,7 +119,4 @@ def post_leads(data_json: list[dict]):
     pprint(api_answer.json())
 
 
-# get_lead("13282723")
-# get_contact("16823473")
-# create_list_leads(data)
 post_leads(data)
