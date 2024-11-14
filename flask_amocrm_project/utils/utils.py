@@ -3,11 +3,7 @@
 import os
 import requests
 
-from dotenv import load_dotenv
-
 from ..config import GET_LEAD
-
-load_dotenv()
 
 
 def get_lead(id: int):

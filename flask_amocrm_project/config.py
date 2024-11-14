@@ -3,10 +3,6 @@
 import os
 from datetime import timedelta
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
 
 # # Config Flask
 class Config(object):
