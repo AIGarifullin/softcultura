@@ -1,4 +1,17 @@
-# Конфигурация и константы проекта
+"""Модуль настроек и констант проекта"""
+
+import os
+from datetime import timedelta
+
+
+# # Config Flask
+class Config(object):
+    """Конфиг фласк."""
+
+    # Не переопределяем словарь, а сразу формируем с нужными значениями
+    PERMANENT_SESSION_LIFETIME = timedelta(days=1)
+    SECRET_KEY = os.getenv("SECRET_KEY", default="default")
+
 
 # Отношение состояний сделки
 STATUSES_LEADS = {
@@ -21,3 +34,25 @@ LOGGING_LEVEL = "DEBUG"
 LOGS_FOLDER = "logs"
 LOGS_FILE = "logfile.log"
 MAX_BYTES = 50_000_000
+
+# # URL's amoCRM
+GET_LEADS_LIST = "https://softculture.amocrm.ru/api/v4/leads"
+GET_LEAD = "https://softculture.amocrm.ru/api/v4/leads/{}"
+POST_LEADS = "https://softculture.amocrm.ru/api/v4/leads/complex"
+
+data = [
+    {
+        "airtable_id": "M13752",
+        "amount_paid": 7000,
+        "course_code": "ISB_7.7.07",
+        "date_received": "2021-10-01",
+        "price": 7000,
+        "student_email": "uuu@gmail.com",
+        "student_id": "A9299",
+        "student_name": "Name1",
+        "student_phone": "+770000000000",
+        "student_surname": "Surname1",
+        "submission_id": "P18814",
+        "status": "Оплачена полностью",
+    }
+]

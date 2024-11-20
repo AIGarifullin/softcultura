@@ -36,10 +36,17 @@ python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Запустить проект:
+Запустить проект (с директории flask_amocrm_project):
 
 ```
-python3 -m flask_amocrm_project.main
+flask run
+```
+
+В случае возникновения ошибки:
+
+```
+export FLASK_APP=main.py
+flask run
 ```
 
 ## Pre-commit
