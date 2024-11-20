@@ -39,20 +39,3 @@ MAX_BYTES = 50_000_000
 GET_LEADS_LIST = "https://softculture.amocrm.ru/api/v4/leads"
 GET_LEAD = "https://softculture.amocrm.ru/api/v4/leads/{}"
 POST_LEADS = "https://softculture.amocrm.ru/api/v4/leads/complex"
-
-data = [
-    {
-        "airtable_id": "M13752",
-        "amount_paid": 7000,
-        "course_code": "ISB_7.7.07",
-        "date_received": "2021-10-01",
-        "price": 7000,
-        "student_email": "uuu@gmail.com",
-        "student_id": "A9299",
-        "student_name": "Name1",
-        "student_phone": "+770000000000",
-        "student_surname": "Surname1",
-        "submission_id": "P18814",
-        "status": "Оплачена полностью",
-    }
-]

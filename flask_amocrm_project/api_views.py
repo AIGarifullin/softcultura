@@ -7,7 +7,7 @@ import requests
 from dotenv import load_dotenv
 from flask import jsonify
 
-from .config import data, GET_LEAD, GET_LEADS_LIST, POST_LEADS
+from .config import GET_LEAD, GET_LEADS_LIST, POST_LEADS
 from .main import app
 from .utils.utils import create_list_leads
 
@@ -123,7 +123,7 @@ def post_leads():
                 "Authorization": f"Bearer {os.getenv('TOKEN_AMO')}",
                 "Content-Type": "application/json",
             },
-            json=create_list_leads(data),
+            json=create_list_leads(data),  # noqa
             timeout=10,
         )
         response.raise_for_status()
