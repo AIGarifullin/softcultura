@@ -36,7 +36,7 @@ python3 -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Запустить проект (с директории flask_amocrm_project):
+Запустить проект (переходим в директорию flask_amocrm_project):
 
 ```
 flask run
