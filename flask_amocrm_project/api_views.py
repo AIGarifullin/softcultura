@@ -3,7 +3,7 @@
 from flask import jsonify
 
 from . import app
-from .utils.utils import get_lead
+from .utils.api_requests import get_lead
 
 
 @app.route("/api/v1/leads/<int:id>", methods=("GET",))
