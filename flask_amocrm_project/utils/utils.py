@@ -1,10 +1,10 @@
+import http
+import json
 import logging
 
 import requests
 
 from datetime import datetime
-
-from flask import jsonify
 
 from flask_amocrm_project.config import STATUSES_LEADS, ID_VOR
 
@@ -74,35 +74,43 @@ def create_list_leads(data_json: list[dict]):
     return leads
 
 
-def error_handling(response, err):
-    """Обрабатывает исключения запросов и возвращает соответствующий ответ."""
-    if isinstance(err, requests.exceptions.HTTPError):
-        logger.error(f"HTTP Error: {err}, Код ответа: {response.status_code}")
-        return (
-            jsonify({"error": "HTTP Error", "message": str(err)}),
-            response.status_code,
-        )
-    elif isinstance(err, requests.exceptions.ConnectionError):
-        logger.error(
-            f"Connection Error: {err}, Код ответа: {response.status_code}"
-        )
-        return (
-            jsonify({"error": "Connection Error", "message": str(err)}),
-            502,
-        )
-    elif isinstance(err, requests.exceptions.Timeout):
-        logger.error(
-            f"Timeout Error: {err}, Код ответа: {response.status_code}"
-        )
-        return (
-            jsonify({"error": "Timeout Error", "message": str(err)}),
-            504,
-        )
-    else:
-        logger.error(
-            f"Request Error: {err}, Код ответа: {response.status_code}"
-        )
-        return (
-            jsonify({"error": "Request Error", "message": str(err)}),
-            500,
-        )
+def try_except_wrapper(func):
+    """
+    Декоратор перехвата ошибок обращения по URLs к API сервисов заказчика.
+    """
+
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except requests.exceptions.HTTPError as http_err:
+            logger.error(f"HTTP Error: {http_err}")
+            return (
+                {"error": "HTTP Error", "message": str(http_err)},
+                http.HTTPStatus.BAD_REQUEST,
+            )
+        except json.JSONDecodeError as json_err:
+            logger.error(f"JSON Decode Error: {json_err}")
+            return (
+                {"error": "JSON Decode Error", "message": str(json_err)},
+                http.HTTPStatus.UNPROCESSABLE_ENTITY,
+            )
+        except requests.exceptions.ConnectionError as conn_err:
+            logger.error(f"Connection Error: {conn_err}")
+            return (
+                {"error": "Connection Error", "message": str(conn_err)},
+                http.HTTPStatus.BAD_GATEWAY,
+            )
+        except requests.exceptions.Timeout as timeout_err:
+            logger.error(f"Timeout Error: {timeout_err}")
+            return (
+                {"error": "Timeout Error", "message": str(timeout_err)},
+                http.HTTPStatus.GATEWAY_TIMEOUT,
+            )
+        except requests.exceptions.RequestException as req_err:
+            logger.error(f"Request Error: {req_err}")
+            return (
+                {"error": "Request Error", "message": str(req_err)},
+                http.HTTPStatus.INTERNAL_SERVER_ERROR,
+            )
+
+    return wrapper
