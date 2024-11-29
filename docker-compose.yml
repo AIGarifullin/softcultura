@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  flask_app:
+    build: ./flask_amocrm_project/
+    container_name: api-flask
+    env_file: .env
+    volumes:
+      - ./flask_amocrm_project:/app
+      - ./logs:/app/logs
+    ports:
+      - "80:5000"
+    command: flask run --host=0.0.0.0
