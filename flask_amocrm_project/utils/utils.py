@@ -6,7 +6,7 @@ import requests
 
 from datetime import datetime
 
-from flask_amocrm_project.config import STATUSES_LEADS, ID_VOR
+from ..config import STATUSES_LEADS, ID_VOR
 
 logger = logging.getLogger("API")
 
@@ -74,7 +74,7 @@ def create_list_leads(data_json: list[dict]):
     return leads
 
 
-def try_except_wrapper(func):
+def try_except_decorator(func):
     """
     Декоратор перехвата ошибок обращения по URLs к API сервисов заказчика.
     """

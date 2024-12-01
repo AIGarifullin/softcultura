@@ -10,10 +10,9 @@ def get_leads_list_and_post_leads_route():
     """Маршрут для получения списка сделок и их создания."""
     if request.method == "GET":
         response_data, status_code = get_leads_list()
-        return jsonify(response_data), status_code
     elif request.method == "POST":
-        response_data, status_code = post_leads()
-        return jsonify(response_data), status_code
+        response_data, status_code = post_leads(request.get_json())
+    return jsonify(response_data), status_code
 
 
 @app.route("/api/v1/leads/<int:id>", methods=("GET",))

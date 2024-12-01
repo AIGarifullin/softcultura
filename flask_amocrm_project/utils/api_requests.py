@@ -8,15 +8,15 @@ import requests
 
 from dotenv import load_dotenv
 
-from .utils import create_list_leads, try_except_wrapper
-from ..config import data, GET_LEAD, GET_LEADS_LIST, POST_LEADS
+from .utils import create_list_leads, try_except_decorator
+from ..config import GET_LEAD, GET_LEADS_LIST, POST_LEADS
 
 logger = logging.getLogger("Flask_App")
 
 load_dotenv()
 
 
-@try_except_wrapper
+@try_except_decorator
 def get_leads_list():
     """Получение списка сделок."""
     response = requests.get(
@@ -31,7 +31,7 @@ def get_leads_list():
     return response.json(), response.status_code
 
 
-@try_except_wrapper
+@try_except_decorator
 def get_lead(id: int):
     """Получение сделки по ID."""
     response = requests.get(
@@ -46,7 +46,7 @@ def get_lead(id: int):
     return response.json(), response.status_code
 
 
-@try_except_wrapper
+@try_except_decorator
 def post_leads(data_json: list[dict]):
     """Создание сделок в amoCRM."""
     response = requests.post(
@@ -55,7 +55,7 @@ def post_leads(data_json: list[dict]):
             "Authorization": f"Bearer {os.getenv('TOKEN_AMO')}",
             "Content-Type": "application/json",
         },
-        json=create_list_leads(data),  # noqa
+        json=create_list_leads(data_json),
         timeout=10,
     )
     if response.status_code != http.HTTPStatus.OK:
