@@ -13,6 +13,18 @@ class Config(object):
     SECRET_KEY = os.getenv("SECRET_KEY", default="default")
 
 
+# Отношение состояний сделки
+STATUSES_LEADS = {
+    "Нет оплаты": 66431750,
+    "Оплачена полностью": 142,
+    "Оплачена частично": 142,
+    "Оплачена с переплатой": 142,
+    "Отменена": 143,
+}
+
+# ID воронки "Воронка" в проекте amoCRM
+ID_VOR = 8117898
+
 # # Глобальные настройки логгера
 BACKUP_COUNT = 5
 ENCODING = "UTF-8"
@@ -25,3 +37,5 @@ MAX_BYTES = 50_000_000
 
 # # URL's amoCRM
 GET_LEAD = "https://softculture.amocrm.ru/api/v4/leads/{}"
+GET_LEADS_LIST = "https://softculture.amocrm.ru/api/v4/leads"
+POST_LEADS = "https://softculture.amocrm.ru/api/v4/leads/complex"
