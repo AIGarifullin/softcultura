@@ -5,7 +5,7 @@ import os
 import sys
 from logging.handlers import RotatingFileHandler
 
-from flask_amocrm_project.config import (
+from .config import (
     BACKUP_COUNT,
     DATE_FORMAT,
     ENCODING,
