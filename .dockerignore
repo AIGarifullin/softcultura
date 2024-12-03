@@ -1,0 +1,11 @@
+venv
+.git
+.vscode
+.venv
+.bak
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.idea/
