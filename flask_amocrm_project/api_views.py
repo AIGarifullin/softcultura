@@ -19,7 +19,7 @@ def get_leads_list_and_post_leads_route():
     """
     if request.method == "GET":
         response_data, status_code = get_leads_list()
-    if request.method == "PUT":  # "POST"
+    if request.method == "POST":
         student_submission_ids_crm = [
             (lead["student_id"], lead["submission_id"])
             for lead in request.json
@@ -36,8 +36,6 @@ def get_leads_list_and_post_leads_route():
             if not unique_leads:
                 unique_leads = request.json
         response_data, status_code = post_leads(unique_leads)
-    if request.method == "POST":
-        response_data, status_code = get_leads_list()
     return jsonify(response_data), status_code
 
 
@@ -58,5 +56,11 @@ def get_lead_route():
       200:
         description: Сделка в формате json (словаря)
     """
-    response_data, status_code = get_lead(int(request.args.get("id")))
+    lead_id = request.args.get("id")
+    if lead_id is None:
+        return dict(error="Нужен id сделки, 'api/v1/lead/?id=13282723'")
+    try:
+        response_data, status_code = get_lead(int(lead_id))
+    except ValueError:
+        return dict(error=f"Не верное значение id: {lead_id}")
     return jsonify(response_data), status_code
