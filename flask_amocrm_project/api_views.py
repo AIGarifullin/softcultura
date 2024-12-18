@@ -10,10 +10,19 @@ swagger = Swagger(app)
 
 @app.route("/api/v1/leads/", methods=("GET", "POST"))
 def get_leads_list_and_post_leads_route():
-    """Маршрут для получения списка сделок и их создания."""
+    """
+    Маршрут для получения списка сделок и их создания.
+    ---
+    get:
+      operationId: Список сделок
+      description: лимит выставлен 2
+    responses:
+      200:
+        description: Список сделок в формате json (словаря)
+    """
     if request.method == "GET":
         response_data, status_code = get_leads_list()
-    if request.method == "POST":
+    if request.method == "PUT":  # "POST"
         student_submission_ids_crm = [
             (lead["student_id"], lead["submission_id"])
             for lead in request.json
@@ -30,6 +39,8 @@ def get_leads_list_and_post_leads_route():
             if not unique_leads:
                 unique_leads = request.json
         response_data, status_code = post_leads(unique_leads)
+    if request.method == "POST":
+        response_data, status_code = get_leads_list()
     return jsonify(response_data), status_code
 
 

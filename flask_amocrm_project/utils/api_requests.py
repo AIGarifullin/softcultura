@@ -22,6 +22,7 @@ def get_leads_list():
     response = requests.get(
         GET_LEADS_LIST,
         headers={"Authorization": f"Bearer {os.getenv('TOKEN_AMO')}"},
+        params=dict(limit=2),
         timeout=10,  # Устанавливаем тайм-аут в 10 секунд
     )
     if response.status_code != http.HTTPStatus.OK:
