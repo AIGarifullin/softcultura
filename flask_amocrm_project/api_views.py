@@ -1,8 +1,11 @@
 """Модуль API проекта"""
-from flask import request, jsonify, render_template
+from flasgger import Swagger
+from flask import request, jsonify
 
 from .main import app
 from .utils.api_requests import get_lead, get_leads_list, post_leads
+
+swagger = Swagger(app)
 
 
 @app.route("/api/v1/leads/", methods=("GET", "POST"))
@@ -30,14 +33,22 @@ def get_leads_list_and_post_leads_route():
     return jsonify(response_data), status_code
 
 
-@app.route("/api/v1/leads/<int:id>", methods=("GET",))
+@app.route("/api/v1/lead/<int:id>", methods=("GET",))
 def get_lead_route(id: int):
-    """Маршрут для получения сделки по ID."""
+    """
+    Маршрут для получения сделки по ID.
+    ---
+    parameters:
+     - name: id
+       required: true
+       in: query
+       description: id сделки в amoCRM.
+       type: integer
+       schema:
+         type: integer
+    responses:
+      200:
+        description: Сделка в формате json (словаря)
+    """
     response_data, status_code = get_lead(id)
     return jsonify(response_data), status_code
-
-
-@app.route("/docs/", methods=("GET",))
-def docs():
-    """Маршрут для получения сделки по ID."""
-    return render_template("/docs/redoc.html")
