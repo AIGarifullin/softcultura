@@ -33,10 +33,10 @@ def get_leads_list():
 
 
 @try_except_decorator
-def get_lead(id: int):
+def get_lead(id):
     """Получение сделки по ID."""
     response = requests.get(
-        GET_LEAD.format(id),
+        GET_LEAD.format(int(id)),
         headers={"Authorization": f"Bearer {os.getenv('TOKEN_AMO')}"},
         timeout=10,
     )

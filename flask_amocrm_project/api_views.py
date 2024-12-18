@@ -59,8 +59,5 @@ def get_lead_route():
     lead_id = request.args.get("id")
     if lead_id is None:
         return dict(error="Нужен id сделки, 'api/v1/lead/?id=13282723'")
-    try:
-        response_data, status_code = get_lead(int(lead_id))
-    except ValueError:
-        return dict(error=f"Не верное значение id: {lead_id}")
+    response_data, status_code = get_lead(lead_id)
     return jsonify(response_data), status_code
