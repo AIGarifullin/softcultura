@@ -22,7 +22,7 @@ def get_leads_list():
     response = requests.get(
         GET_LEADS_LIST,
         headers={"Authorization": f"Bearer {os.getenv('TOKEN_AMO')}"},
-        params=dict(limit=2),
+        params={"with": "contacts"},
         timeout=10,  # Устанавливаем тайм-аут в 10 секунд
     )
     if response.status_code != http.HTTPStatus.OK:
@@ -33,11 +33,12 @@ def get_leads_list():
 
 
 @try_except_decorator
-def get_lead(id):
+def get_lead(id: int):
     """Получение сделки по ID."""
     response = requests.get(
-        GET_LEAD.format(int(id)),
+        GET_LEAD.format(id),
         headers={"Authorization": f"Bearer {os.getenv('TOKEN_AMO')}"},
+        params={"with": "contacts"},
         timeout=10,
     )
     if response.status_code != http.HTTPStatus.OK:

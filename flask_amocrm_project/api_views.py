@@ -39,15 +39,15 @@ def get_leads_list_and_post_leads_route():
     return jsonify(response_data), status_code
 
 
-@app.route("/api/v1/lead/", methods=("GET",))
-def get_lead_route():
+@app.route("/api/v1/lead/<int:id>", methods=("GET",))
+def get_lead_route(id: int):
     """
     Маршрут для получения сделки по ID.
     ---
     parameters:
      - name: id
        required: true
-       in: query
+       in: path
        description: id сделки в amoCRM.
        type: integer
        schema:
@@ -55,9 +55,8 @@ def get_lead_route():
     responses:
       200:
         description: Сделка в формате json (словаря)
+        schema:
+          example: {"_embedded": {}, "_links": {}, "id": 13282723,}
     """
-    lead_id = request.args.get("id")
-    if lead_id is None:
-        return dict(error="Нужен id сделки, 'api/v1/lead/?id=13282723'")
-    response_data, status_code = get_lead(lead_id)
+    response_data, status_code = get_lead(id)
     return jsonify(response_data), status_code
