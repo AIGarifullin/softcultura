@@ -13,9 +13,6 @@ def get_leads_list_and_post_leads_route():
     """
     Маршрут для получения списка сделок и их создания.
     ---
-    get:
-      operationId: Список сделок
-      description: лимит выставлен 2
     responses:
       200:
         description: Список сделок в формате json (словаря)
@@ -44,8 +41,8 @@ def get_leads_list_and_post_leads_route():
     return jsonify(response_data), status_code
 
 
-@app.route("/api/v1/lead/<int:id>", methods=("GET",))
-def get_lead_route(id: int):
+@app.route("/api/v1/lead/", methods=("GET",))
+def get_lead_route():
     """
     Маршрут для получения сделки по ID.
     ---
@@ -61,5 +58,5 @@ def get_lead_route(id: int):
       200:
         description: Сделка в формате json (словаря)
     """
-    response_data, status_code = get_lead(id)
+    response_data, status_code = get_lead(int(request.args.get("id")))
     return jsonify(response_data), status_code
