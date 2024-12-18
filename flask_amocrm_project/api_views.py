@@ -1,5 +1,5 @@
 """Модуль API проекта"""
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from .main import app
 from .utils.api_requests import get_lead, get_leads_list, post_leads
@@ -35,3 +35,9 @@ def get_lead_route(id: int):
     """Маршрут для получения сделки по ID."""
     response_data, status_code = get_lead(id)
     return jsonify(response_data), status_code
+
+
+@app.route("/docs/", methods=("GET",))
+def docs():
+    """Маршрут для получения сделки по ID."""
+    return render_template("/docs/redoc.html")
