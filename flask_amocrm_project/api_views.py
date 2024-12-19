@@ -1,22 +1,19 @@
 """Модуль API проекта"""
-from flasgger import Swagger
+from flasgger import Swagger, swag_from
 from flask import request, jsonify
 
+from .config import TEMPLATE_SWAGG
 from .main import app
 from .utils.api_requests import get_lead, get_leads_list, post_leads
 
-swagger = Swagger(app)
+swagger = Swagger(app, template=TEMPLATE_SWAGG)
 
 
 @app.route("/api/v1/leads/", methods=("GET", "POST"))
+@swag_from("swagg/leads_get.yml", methods=("GET",))
+@swag_from("swagg/leads_post.yml", methods=("POST",))
 def get_leads_list_and_post_leads_route():
-    """
-    Маршрут для получения списка сделок и их создания.
-    ---
-    responses:
-      200:
-        description: Список сделок в формате json (словаря)
-    """
+    """Маршрут для получения списка сделок и их создания."""
     if request.method == "GET":
         response_data, status_code = get_leads_list()
     if request.method == "POST":
@@ -40,23 +37,10 @@ def get_leads_list_and_post_leads_route():
 
 
 @app.route("/api/v1/lead/<int:id>", methods=("GET",))
+@swag_from("swagg/lead_get.yml", methods=("GET",))
 def get_lead_route(id: int):
     """
     Маршрут для получения сделки по ID.
-    ---
-    parameters:
-     - name: id
-       required: true
-       in: path
-       description: id сделки в amoCRM.
-       type: integer
-       schema:
-         type: integer
-    responses:
-      200:
-        description: Сделка в формате json (словаря)
-        schema:
-          example: {"_embedded": {}, "_links": {}, "id": 13282723,}
     """
     response_data, status_code = get_lead(id)
     return jsonify(response_data), status_code
