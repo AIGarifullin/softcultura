@@ -22,6 +22,7 @@ def get_leads_list():
     response = requests.get(
         GET_LEADS_LIST,
         headers={"Authorization": f"Bearer {os.getenv('TOKEN_AMO')}"},
+        params={"with": "contacts"},
         timeout=10,  # Устанавливаем тайм-аут в 10 секунд
     )
     if response.status_code != http.HTTPStatus.OK:
@@ -37,6 +38,7 @@ def get_lead(id: int):
     response = requests.get(
         GET_LEAD.format(id),
         headers={"Authorization": f"Bearer {os.getenv('TOKEN_AMO')}"},
+        params={"with": "contacts"},
         timeout=10,
     )
     if response.status_code != http.HTTPStatus.OK:
