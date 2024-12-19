@@ -39,8 +39,6 @@ def get_leads_list_and_post_leads_route():
 @app.route("/api/v1/lead/<int:id>", methods=("GET",))
 @swag_from("swagg/lead_get.yml", methods=("GET",))
 def get_lead_route(id: int):
-    """
-    Маршрут для получения сделки по ID.
-    """
+    """Маршрут для получения сделки по ID."""
     response_data, status_code = get_lead(id)
     return jsonify(response_data), status_code
