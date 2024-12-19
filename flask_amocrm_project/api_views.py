@@ -33,7 +33,7 @@ def get_leads_list_and_post_leads_route():
     return jsonify(response_data), status_code
 
 
-@app.route("/api/v1/leads/<int:id>", methods=("GET",))
+@app.route("/api/v1/lead/<int:id>", methods=("GET",))
 def get_lead_route(id: int):
     """Маршрут для получения сделки по ID."""
     response_data, status_code = get_lead(id)
