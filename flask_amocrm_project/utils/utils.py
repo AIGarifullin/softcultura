@@ -153,5 +153,10 @@ def try_except_decorator(func):
                 {"error": "Request Error", "message": str(req_err)},
                 http.HTTPStatus.INTERNAL_SERVER_ERROR,
             )
+        except ValueError as val_err:
+            return (
+                dict(error=f"Invalid symbol: {val_err}"),
+                http.HTTPStatus.INTERNAL_SERVER_ERROR,
+            )
 
     return wrapper

@@ -43,3 +43,18 @@ BASE_URL = "https://softculture.amocrm.ru/api/v4/leads"
 GET_LEADS_LIST = BASE_URL + "?with=contacts&page={}&limit=250"
 GET_LEAD = BASE_URL + "/{}?with=contacts"
 POST_LEADS = BASE_URL + "/complex"
+
+# # URL's amoCRM
+GET_LEADS_LIST = "https://softculture.amocrm.ru/api/v4/leads"
+GET_LEAD = "https://softculture.amocrm.ru/api/v4/leads/{}"
+POST_LEADS = "https://softculture.amocrm.ru/api/v4/leads/complex"
+
+# "swagger"
+TEMPLATE_SWAGG = dict(
+    swagger="2.0",
+    info=dict(
+        title="Проект интеграции API amoCRM.",
+        description="Интеграция API заказчика, на API amoCRM.",
+        version="0.0.1",
+    ),
+)
