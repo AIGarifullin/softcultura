@@ -39,3 +39,13 @@ MAX_BYTES = 50_000_000
 GET_LEADS_LIST = "https://softculture.amocrm.ru/api/v4/leads"
 GET_LEAD = "https://softculture.amocrm.ru/api/v4/leads/{}"
 POST_LEADS = "https://softculture.amocrm.ru/api/v4/leads/complex"
+
+# "swagger"
+TEMPLATE_SWAGG = dict(
+    swagger="2.0",
+    info=dict(
+        title="Проект интеграции API amoCRM.",
+        description="Интеграция API заказчика, на API amoCRM.",
+        version="0.0.1",
+    ),
+)
