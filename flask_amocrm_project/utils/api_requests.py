@@ -45,7 +45,6 @@ def get_lead(id: int):
     response = requests.get(
         GET_LEAD.format(id),
         headers={"Authorization": f"Bearer {os.getenv('TOKEN_AMO')}"},
-        params={"with": "contacts"},
         timeout=10,
     )
     if response.status_code != http.HTTPStatus.OK:
