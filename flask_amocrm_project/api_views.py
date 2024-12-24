@@ -56,6 +56,8 @@ def get_leads_list_and_post_leads_route():
             if subm_stud_ids_crm[i] not in subm_stud_ids_amocrm:
                 unique_leads.append(request.json[i])
         response_data, status_code = post_leads(unique_leads)
+        if not unique_leads:
+            response_data = {"message": "Duplicate lead(s)"}
     return jsonify(response_data), status_code
 
 
