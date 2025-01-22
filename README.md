@@ -61,6 +61,7 @@ docker compose up
 ## Примеры запросов:
 
 > Подробнее можно ознакомиться в документации amoCRM https://www.amocrm.ru/developers/content/crm_platform/leads-api
+
 > Подробнее можно ознакомиться в документации Swagger http://188.72.76.76:5050/apidocs/
 
 ### Получение списка сделок (GET-запрос):
