@@ -2,8 +2,8 @@
 
 ## Сведение о команде
 - [Андрей Галкин](https://github.com/kmvit), Team Lead,
-- [Михаил Миноцкий](https://github.com/smoke-m), Python-Developer,
-- [Адель Гарифуллин](https://github.com/AIGarifullin), Python-Developer
+- [Михаил Миноцкий](https://github.com/smoke-m), Python Developer,
+- [Адель Гарифуллин](https://github.com/AIGarifullin), Python Developer
 
 ## Стек проекта:
 Python, Flask, Docker
