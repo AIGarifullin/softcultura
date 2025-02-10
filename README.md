@@ -1,5 +1,10 @@
 # Проект от Софт Культура — внешнее решение-интеграция в виде amoCRM для REST API Софт Культуры.
 
+## Сведение о команде
+- [Андрей Галкин](https://github.com/kmvit), Team Lead,
+- [Михаил Миноцкий](https://github.com/smoke-m), python-developer,
+- [Адель Гарифуллин](https://github.com/AIGarifullin), python-developer
+
 ## Стек проекта:
 Python, Flask, Docker
 
